@@ -1,8 +1,130 @@
-import Image from "next/image";
+//to start the project, add useClient
+"use client";
+import React, {useState} from "react"; //import hooks
+import { NewForm } from "./_components/new-form";
+
+//Typescript: identify the type, define the schema
+type ToDoItem = {
+  title: string;
+  description: string;
+  completed: boolean;
+  //completedAt: number, // Unix timestamp: https://www.unixtimestamp.com/ 
+   // adding mood and body state, adding ? makes it optional for unfinished tasks
+  mood_state: string | undefined; 
+  body_state: string | undefined;
+}
 
 export default function Home() {
+  // in the body, define the state of the List
+  const [todos, setTodos] = useState<ToDoItem[]>([
+    // establish test data from the schema
+    {
+      title: "Example Entry",
+      description: "This log is an example",
+      //completedAt: 1744637713, //6:35 4/14, as example data
+      completed: false,
+      mood_state: "Calm",
+      body_state: "Grounded"
+    }
+  ]);
+
+  //move state, Handler function to new-form
+  //Move setTodos below
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+    // take up the max screen size horizontally, where it flexes, and space between the elements
+   <div className="max-w-screen-md mx-auto p-4 space-y-4">
+    <h1 className="text-xl font-bold">Somatic Serenity</h1>
+    <br />
+    {/* set the ul container and adding spacing between elements */}
+    <ul className="space-y-2">
+      {/* Begin mapping */}
+      {todos.map(({title, description, completed, mood_state, body_state}, index) => (
+        <LineItem 
+        key={index}
+        title={title}
+        description={description}
+        completed={completed}
+        mood_state={mood_state}
+        body_state={body_state} 
+        onCompleteChanged={(newValue) => {
+          //move the setTodos here
+
+          setTodos(prev => {
+            // define a new variable and use the spread operator on the prev state
+            const newTodos = [...prev];
+  
+            //Now: begin chaining the newTodos instead of prev
+            newTodos[index].completed = newValue; //instead of e.target.checked, set to newValue
+            return newTodos;
+  
+            // Initially: find the prev value's index and log it as completed and VT with checked box event, then return the prev value
+            // prev[index].completed = e.target.checked;
+            // return prev;
+          })
+        }}
+        onRemove={() => {
+          setTodos(prev => {
+             // look at the prev arr and filter based on the index of the initial array and detect the correct entry
+             const newTodos = [...prev].filter((_, i) => i !== index); //in order to return true, change from strictly equal to not equal, to target all values including the first one
+             return newTodos;
+          })
+        }}/>
+      ))}
+    </ul>
+    {/* add form component here */}
+    <NewForm onCreate = {(title, description, mood_state, body_state) => {
+      //insert setTodos here
+      // stage the setter function to track items
+      setTodos(prev => {
+        const newTodos = [...prev];
+        //inside the array, push new data
+        newTodos.push({title, description, completed: false, mood_state, body_state});
+        return newTodos; //the arr
+      });
+    }}/>
+   </div>
+  );
+}
+
+function LineItem({title, description, completed, mood_state, body_state, onCompleteChanged, onRemove}: 
+  {
+    title: string;
+    description: string;
+    completed: boolean;
+    mood_state: string;
+    body_state: string;
+    onCompleteChanged: (newValue: boolean) => void;
+    //make another callback function to delete items
+    onRemove: () => void;
+  }) {
+  return (
+    //remove key
+    <li className = "w-full flex item-center gap-2 border rounded p-2">
+        <input 
+        type="checkbox" 
+        checked={completed} 
+        // refactor callback
+        onChange={e => onCompleteChanged(e.target.checked)} />
+        <div>
+          <p className="font-semibold">
+            {title}</p>
+            {/* 300 - light, 600- darker */}
+          <p className="text-sm text-gray-600">{description}</p>
+          <p className="text-sm text-gray-600">{mood_state}</p>
+          <p className="text-sm text-gray-600">{body_state}</p>
+        </div>
+        {/* delete button */}
+        <div className="ml-auto">
+          <button type="button" className="text-red-500" onClick={() => onRemove()}>Remove</button>
+        </div>
+      </li>
+  )
+}
+
+//Template
+/*
+ <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
         <Image
           className="dark:invert"
@@ -16,7 +138,7 @@ export default function Home() {
           <li className="mb-2 tracking-[-.01em]">
             Get started by editing{" "}
             <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
+              src/app/page.tsx
             </code>
             .
           </li>
@@ -99,5 +221,33 @@ export default function Home() {
         </a>
       </footer>
     </div>
-  );
-}
+*/ 
+
+{/* Establish form and values of state --> moved to new-form */}
+{/*
+<form onSubmit={handleSubmit}>
+  <label htmlFor="title">Title: </label>
+  <input type="text" name="title" id="title" value={title} onChange={e => setTitle(e.target.value)} />
+  <br />
+  <hr />
+  <br />
+  <label htmlFor="description">Description: </label>
+  <input type="text" name="description" id="description" value={description} onChange={e => setDesc(e.target.value)} />
+  <br />
+  <hr />
+  <br />
+  <label htmlFor="mood-state">Mood: </label>
+  <input type="text" name="mood-state" id="mood-state" value={mood_state} onChange={e => setMood(e.target.value)} />
+  <br />
+  <hr />
+  <br />
+  <label htmlFor="body-state">Body: </label>
+  <input type="text" name="body-state" id="body-state" value={body_state} onChange={e => setBody(e.target.value)} />
+  <br />
+  <hr />
+  <br />
+  <span>
+    <button type="submit">Create Entry</button>
+  </span>
+</form>
+*/}
