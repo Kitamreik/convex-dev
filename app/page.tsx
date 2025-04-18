@@ -2,8 +2,11 @@
 "use client";
 import React, {useState} from "react"; //import hooks
 import { NewForm } from "./_components/new-form";
+import { useMutation, useQuery } from "convex/react";
+import { api } from "../convex/_generated/api";
 
 //Typescript: identify the type, define the schema
+/*
 type ToDoItem = {
   title: string;
   description: string;
@@ -13,10 +16,18 @@ type ToDoItem = {
   mood_state: string | undefined; 
   body_state: string | undefined;
 }
+*/ 
+
+
+//After convexClientProvider is staged, the above code can be removed
 
 export default function Home() {
+  //upgrade from state to query
+  const todos = useQuery(api.functions.ListComponents) //call the api and within the functions --> ListComp. Has optional field when rendering so see the map function below
+  
   // in the body, define the state of the List
-  const [todos, setTodos] = useState<ToDoItem[]>([
+  /*
+   const [todos, setTodos] = useState<ToDoItem[]>([
     // establish test data from the schema
     {
       title: "Example Entry",
@@ -27,7 +38,9 @@ export default function Home() {
       body_state: "Grounded"
     }
   ]);
-
+  */
+ 
+  //After convexClientProvider is staged, the above code can be removed
   //move state, Handler function to new-form
   //Move setTodos below
 
@@ -38,16 +51,19 @@ export default function Home() {
     <br />
     {/* set the ul container and adding spacing between elements */}
     <ul className="space-y-2">
-      {/* Begin mapping */}
-      {todos.map(({title, description, completed, mood_state, body_state}, index) => (
+      {/* Begin mapping, add question mark re: rendering */}
+      {todos?.map(({_id, title, description, completed, mood_state, body_state}, index) => (
         <LineItem 
         key={index}
+        id={_id}
         title={title}
         description={description}
         completed={completed}
         mood_state={mood_state}
         body_state={body_state} 
-        onCompleteChanged={(newValue) => {
+        // disable onCompleteChanged
+        /*
+         onCompleteChanged={(newValue) => {
           //move the setTodos here
 
           setTodos(prev => {
@@ -63,17 +79,21 @@ export default function Home() {
             // return prev;
           })
         }}
+
         onRemove={() => {
           setTodos(prev => {
              // look at the prev arr and filter based on the index of the initial array and detect the correct entry
              const newTodos = [...prev].filter((_, i) => i !== index); //in order to return true, change from strictly equal to not equal, to target all values including the first one
              return newTodos;
           })
-        }}/>
+        }}
+        */ 
+       
+        />
       ))}
     </ul>
-    {/* add form component here */}
-    <NewForm onCreate = {(title, description, mood_state, body_state) => {
+    {/* add form component here. Remove the onCreate. */}
+    {/* onCreate = {(title, description, mood_state, body_state) => {
       //insert setTodos here
       // stage the setter function to track items
       setTodos(prev => {
@@ -82,30 +102,36 @@ export default function Home() {
         newTodos.push({title, description, completed: false, mood_state, body_state});
         return newTodos; //the arr
       });
-    }}/>
+    }} */}
+    <NewForm />
    </div>
   );
 }
 
-function LineItem({title, description, completed, mood_state, body_state, onCompleteChanged, onRemove}: 
+function LineItem({id, title, description, completed, mood_state, body_state}: 
   {
+    id: Id<"todos">; //will autocomplete and pull from existing table
     title: string;
     description: string;
     completed: boolean;
     mood_state: string;
     body_state: string;
-    onCompleteChanged: (newValue: boolean) => void;
+    //disable onCompleteChange and onRemove
+    // onCompleteChanged: (newValue: boolean) => void;
     //make another callback function to delete items
-    onRemove: () => void;
+    // onRemove: () => void;
   }) {
+    // update handler
+    const updateTodo = useMutation(api.functions.updateTodo)
+    const deleteTodo = useMutation(api.functions.deleteTodo)
   return (
     //remove key
     <li className = "w-full flex item-center gap-2 border rounded p-2">
         <input 
         type="checkbox" 
         checked={completed} 
-        // refactor callback
-        onChange={e => onCompleteChanged(e.target.checked)} />
+        // refactor callback from onCompleteChanged(e.target.checked) to updateTodo()
+        onChange={e => updateTodo({id, completed: e.target.checked})} />
         <div>
           <p className="font-semibold">
             {title}</p>
@@ -116,7 +142,8 @@ function LineItem({title, description, completed, mood_state, body_state, onComp
         </div>
         {/* delete button */}
         <div className="ml-auto">
-          <button type="button" className="text-red-500" onClick={() => onRemove()}>Remove</button>
+        {/* refactor callback from onRemove() to deleteTodo  */}
+          <button type="button" className="text-red-500" onClick={() => deleteTodo({id})}>Remove</button>
         </div>
       </li>
   )
