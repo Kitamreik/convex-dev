@@ -1,6 +1,6 @@
 import React, {useState} from "react"; //import hooks
 import { useMutation } from "convex/react";
-import {api} from "../../convex/_generated/api"
+import {api} from "../../../convex/_generated/api"
 //add props so we can pass the to-do up to the parent component, create a new Type
 /*
 type FormProps = {

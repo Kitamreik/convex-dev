@@ -3,7 +3,7 @@
 import React, {useState} from "react"; //import hooks
 import { NewForm } from "./_components/new-form";
 import { useMutation, useQuery } from "convex/react";
-import { api } from "../convex/_generated/api";
+import { api } from "../../convex/_generated/api";
 
 //Typescript: identify the type, define the schema
 /*
@@ -22,8 +22,8 @@ type ToDoItem = {
 //After convexClientProvider is staged, the above code can be removed
 
 export default function Home() {
-  //upgrade from state to query
-  const todos = useQuery(api.functions.ListComponents) //call the api and within the functions --> ListComp. Has optional field when rendering so see the map function below
+  //upgrade from state to query - moved to to-do-list.tsx - //54:21
+  
   
   // in the body, define the state of the List
   /*
@@ -49,49 +49,7 @@ export default function Home() {
    <div className="max-w-screen-md mx-auto p-4 space-y-4">
     <h1 className="text-xl font-bold">Somatic Serenity</h1>
     <br />
-    {/* set the ul container and adding spacing between elements */}
-    <ul className="space-y-2">
-      {/* Begin mapping, add question mark re: rendering */}
-      {todos?.map(({_id, title, description, completed, mood_state, body_state}, index) => (
-        <LineItem 
-        key={index}
-        id={_id}
-        title={title}
-        description={description}
-        completed={completed}
-        mood_state={mood_state}
-        body_state={body_state} 
-        // disable onCompleteChanged
-        /*
-         onCompleteChanged={(newValue) => {
-          //move the setTodos here
-
-          setTodos(prev => {
-            // define a new variable and use the spread operator on the prev state
-            const newTodos = [...prev];
-  
-            //Now: begin chaining the newTodos instead of prev
-            newTodos[index].completed = newValue; //instead of e.target.checked, set to newValue
-            return newTodos;
-  
-            // Initially: find the prev value's index and log it as completed and VT with checked box event, then return the prev value
-            // prev[index].completed = e.target.checked;
-            // return prev;
-          })
-        }}
-
-        onRemove={() => {
-          setTodos(prev => {
-             // look at the prev arr and filter based on the index of the initial array and detect the correct entry
-             const newTodos = [...prev].filter((_, i) => i !== index); //in order to return true, change from strictly equal to not equal, to target all values including the first one
-             return newTodos;
-          })
-        }}
-        */ 
-       
-        />
-      ))}
-    </ul>
+   {/* move to to-do-list.tsx */}
     {/* add form component here. Remove the onCreate. */}
     {/* onCreate = {(title, description, mood_state, body_state) => {
       //insert setTodos here
@@ -108,6 +66,7 @@ export default function Home() {
   );
 }
 
+//moved to to-do-list.tsx
 function LineItem({id, title, description, completed, mood_state, body_state}: 
   {
     id: Id<"todos">; //will autocomplete and pull from existing table

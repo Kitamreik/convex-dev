@@ -1,7 +1,17 @@
 import type { Metadata } from "next";
 // Template code can be disabled
 import { Geist, Geist_Mono } from "next/font/google";
-import { ConvexClientProvider } from "./convexClientProvider";
+import { ConvexClientProvider } from "./providers";
+
+//Clerk docs
+import {
+  ClerkProvider,
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from '@clerk/nextjs'
 
 import "./globals.css";
 
