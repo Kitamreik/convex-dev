@@ -1,54 +1,11 @@
-export function ListCompiler() {
-    return (
-        {/* set the ul container and adding spacing between elements */}
-    <ul className="space-y-2">
-    {/* Begin mapping, add question mark re: rendering */}
-    {todos?.map(({_id, title, description, completed, mood_state, body_state}, index) => (
-      <LineItem 
-      key={index}
-      id={_id}
-      title={title}
-      description={description}
-      completed={completed}
-      mood_state={mood_state}
-      body_state={body_state} 
-      // disable onCompleteChanged
-      /*
-       onCompleteChanged={(newValue) => {
-        //move the setTodos here
+import { useMutation, useQuery } from "convex/react";
+import { api } from "../../../convex/_generated/api";
+import { Id } from "../../../convex/_generated/dataModel";
 
-        setTodos(prev => {
-          // define a new variable and use the spread operator on the prev state
-          const newTodos = [...prev];
 
-          //Now: begin chaining the newTodos instead of prev
-          newTodos[index].completed = newValue; //instead of e.target.checked, set to newValue
-          return newTodos;
-
-          // Initially: find the prev value's index and log it as completed and VT with checked box event, then return the prev value
-          // prev[index].completed = e.target.checked;
-          // return prev;
-        })
-      }}
-
-      onRemove={() => {
-        setTodos(prev => {
-           // look at the prev arr and filter based on the index of the initial array and detect the correct entry
-           const newTodos = [...prev].filter((_, i) => i !== index); //in order to return true, change from strictly equal to not equal, to target all values including the first one
-           return newTodos;
-        })
-      }}
-      */ 
-     
-      />
-    ))}
-  </ul>
-    )
-}  
-
-function LineItem({id, title, description, completed, mood_state, body_state}: 
+export function LineItem({id, title, description, completed, mood_state, body_state}: 
   {
-    id: Id<"todos">; //will autocomplete and pull from existing table
+    id: Id<"todos">; //will autocomplete and pull from existing table 
     title: string;
     description: string;
     completed: boolean;
