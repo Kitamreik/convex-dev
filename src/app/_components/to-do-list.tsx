@@ -2,7 +2,6 @@ import { useMutation, useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { Id } from "../../../convex/_generated/dataModel";
 
-
 export function LineItem({id, title, description, completed, mood_state, body_state}: 
   {
     id: Id<"todos">; //will autocomplete and pull from existing table 
