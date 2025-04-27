@@ -1,6 +1,6 @@
 import {mutation, query} from "../convex/_generated/server";
 import {v} from "convex/values"
-import { requireUser } from "./helpers";
+import { requireUser } from "../convex/helpers";
 
 export const ListComponents = query({
 
@@ -9,10 +9,12 @@ export const ListComponents = query({
         //add a user where we trigger auth via getting the user's identity
         const user = await requireUser(ctx); //call the helper function in helpers.ts and reference the context
         //Scan the entire database for a match by pulling a list of the todos from the database. 
-        return await ctx.db.query("todos").withIndex("by_user_id", q => q.eq("userId", user.tokenIdentifier)) //New (refactor) - to use the newly defined index in schema.ts, call it withIndex
+        return await ctx.db.query("todos").withIndex("by_user_id", q => q.eq("userId", user.tokenIdentifier)).collect(); //New (refactor) - to use the newly defined index in schema.ts, call it withIndex  //Use the collect function to gather the data
 
-        //.filter(q => q.eq(q.field("userId"), user.tokenIdentifier)) //NEW: filter the to-dos to only return the ones that belong to the current user. q, ep -> equals
-        .collect(); //Use the collect function to gather the data
+        //return await ctx.db.query("todos").filter(q => q.eq(q.field("userId"), user.tokenIdentifier)).collect(); //NEW, Intermediate: filter the to-dos to only return the ones that belong to the current user. q, ep -> equals
+
+        //return await ctx.db.query("todos").collect(); //Basic
+        
     }
 });
 
@@ -71,5 +73,33 @@ export const deleteTodo = mutation({
             throw new Error("Unauthorized");
         }
         await ctx.db.delete(args.id)
+    }
+})
+
+//internalMutation: not part of the app's public API, can only be called from another action, query or mutation. Won't be able to call directly from Front End.
+export const createManyTodos = internalMutation({
+    args: {
+        userId: v.string(),
+        todos: v.array(v.object({
+            title: v.string(),
+            description: v.string(),
+            mood_state: v.string(),
+            body_state: v.string(),
+        })),
+    }, 
+    handler: async (ctx, args) => {
+        //iterate over the list
+        for (const todo of args.todos) {
+            await ctx.db.insert("todos", {
+                title: todo.title,
+                description: todo.description,
+                completed: false,
+                mood_state: todo.mood_state,
+                body_state: todo.body_state,
+                userId: args.userId
+            })
+            
+        }
+
     }
 })
