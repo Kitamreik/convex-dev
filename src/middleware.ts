@@ -1,4 +1,4 @@
-//Update your middleware file, or create one at the root of your project, or the src/ directory if you're using a src/ directory structure. The clerkMiddleware helper enables authentication and is where you'll configure your protected routes.
+//Update your middleware file, or create one at the root of your project, or the src/ directory if you're using a src/ directory structure. The clerkMiddleware helper enables authentication and is where you'll configure your protected routes. // DO NOT TOUCH CONFIG
 
 import { clerkMiddleware } from "@clerk/nextjs/server";
 

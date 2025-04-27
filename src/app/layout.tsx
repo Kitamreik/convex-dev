@@ -1,3 +1,4 @@
+// DO NOT TOUCH CONFIG
 import type { Metadata } from "next";
 // Template code can be disabled
 import { Geist, Geist_Mono } from "next/font/google";

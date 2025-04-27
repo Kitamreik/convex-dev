@@ -1,3 +1,4 @@
+// DO NOT TOUCH CONFIG
 "use client"; //MUST have this
 import { ReactNode } from "react"; //Docs, Step 7: https://docs.convex.dev/quickstart/nextjs
 import { ConvexProvider, ConvexReactClient } from "convex/react"; //MUST have this
