@@ -24,12 +24,11 @@ export function LineItem({id, title, description, completed, mood_state, body_st
         // refactor callback from onCompleteChanged(e.target.checked) to updateTodo()
         onChange={e => updateTodo({id, completed: e.target.checked})} />
         <div>
-          <p className="font-semibold">
-            {title}</p>
+          <p className="font-semibold">Memo: {title}</p>
             {/* 300 - light, 600- darker */}
-          <p className="text-sm text-gray-600">{description}</p>
-          <p className="text-sm text-gray-600">{mood_state}</p>
-          <p className="text-sm text-gray-600">{body_state}</p>
+          <p className="text-sm text-gray-600">Summary: {description}</p>
+          <p className="text-sm text-gray-600">What's your vibe like: {mood_state}</p>
+          <p className="text-sm text-gray-600">How do you feel in your body: {body_state}</p>
         </div>
         {/* delete button */}
         <div className="ml-auto">
