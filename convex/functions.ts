@@ -1,12 +1,18 @@
 import {mutation, query} from "../convex/_generated/server";
 import {v} from "convex/values"
+import { requireUser } from "./helpers";
 
 export const ListComponents = query({
 
     //without mutations
     handler: async (ctx) => {
-        //pull a list of the todos from the database. Use the collect function to gather the data
-        return await ctx.db.query("todos").collect();
+        //add a user where we trigger auth via getting the user's identity
+        const user = await requireUser(ctx); //call the helper function in helpers.ts and reference the context
+        //Scan the entire database for a match by pulling a list of the todos from the database. 
+        return await ctx.db.query("todos").withIndex("by_user_id", q => q.eq("userId", user.tokenIdentifier)) //New (refactor) - to use the newly defined index in schema.ts, call it withIndex
+
+        //.filter(q => q.eq(q.field("userId"), user.tokenIdentifier)) //NEW: filter the to-dos to only return the ones that belong to the current user. q, ep -> equals
+        .collect(); //Use the collect function to gather the data
     }
 });
 
@@ -16,15 +22,19 @@ export const createTodo = mutation({
         title: v.string(),
         description: v.string(),
         mood_state: v.string(),
-        body_state: v.string()
+        body_state: v.string(),
     },
     handler: async (ctx, args) => {
+        //add a user where we trigger auth via getting the user's identity
+        const user = await requireUser(ctx);
         await ctx.db.insert("todos", {
             title: args.title,
             description: args.description,
             completed: false,
             mood_state: args.mood_state,
-            body_state: args.body_state
+            body_state: args.body_state,
+            // otherwise, you can pass the userId via the tokenIdentifier
+            userId: user.tokenIdentifier
         })
     }
 })
@@ -36,6 +46,12 @@ export const updateTodo = mutation({
         completed: v.boolean(),
     },
     handler: async (ctx, args) => {
+        const user = await requireUser(ctx); //first, get the user
+        const individualItem = await ctx.db.get(args.id); //get the item and compare
+        //Error handling
+        if (individualItem?.userId !== user.tokenIdentifier) {
+            throw new Error("Unauthorized");
+        }
         await ctx.db.patch(args.id, {
             completed: args.completed
         })
@@ -48,6 +64,12 @@ export const deleteTodo = mutation({
         id: v.id("todos"),
     },
     handler: async (ctx, args) => {
+        const user = await requireUser(ctx); //first, get the user
+        const individualItem = await ctx.db.get(args.id); //get the item and compare
+        //Error handling
+        if (individualItem?.userId !== user.tokenIdentifier) {
+            throw new Error("Unauthorized");
+        }
         await ctx.db.delete(args.id)
     }
 })

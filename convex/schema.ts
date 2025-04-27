@@ -8,6 +8,7 @@ export default defineSchema({
         description: v.string(),
         completed: v.boolean(),
         mood_state: v.string(),
-        body_state: v.string()
-    })
+        body_state: v.string(),
+        userId: v.string(),
+    }).index("by_user_id", ["userId"]), //search by index init
 })
