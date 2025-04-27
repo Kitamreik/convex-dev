@@ -5,6 +5,7 @@ import { Authenticated, Unauthenticated, AuthLoading } from "convex/react";
 import { SignInButton, UserButton } from "@clerk/nextjs";
 import { NewForm } from "./_components/new-form";
 import { LineItem } from "./_components/to-do-list";
+import { ListComponents } from "@/convex/functions";
 //Move to to-do-list.tsx only if compartmentalizing components
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
