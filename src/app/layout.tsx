@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 // Template code can be disabled
 import { Geist, Geist_Mono } from "next/font/google";
-import {ConvexClientProvider} from "./providers"; 
-//Clerk docs
+import {ConvexClientProvider} from "./providers"; //added
+//Clerk docs- added
 import {
   ClerkProvider,
   SignInButton,
@@ -10,8 +10,8 @@ import {
   SignedIn,
   SignedOut,
   UserButton,
-} from '@clerk/nextjs'
-
+} from '@clerk/nextjs';
+// Template code can be disabled
 import "./globals.css";
 
 const geistSans = Geist({
@@ -46,4 +46,4 @@ export default function RootLayout({
       </body>
     </html>
   );
-}
+};

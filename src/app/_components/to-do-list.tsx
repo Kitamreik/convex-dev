@@ -11,14 +11,10 @@ export function LineItem({id, title, description, completed, mood_state, body_st
     completed: boolean;
     mood_state: string;
     body_state: string;
-    //disable onCompleteChange and onRemove
-    // onCompleteChanged: (newValue: boolean) => void;
-    //make another callback function to delete items
-    // onRemove: () => void;
   }) {
     // update handler
-    const updateTodo = useMutation(api.functions.updateTodo)
-    const deleteTodo = useMutation(api.functions.deleteTodo)
+    const updateTodo = useMutation(api.functions.updateTodo);
+    const deleteTodo = useMutation(api.functions.deleteTodo);
   return (
     //remove key
     <li className = "w-full flex item-center gap-2 border rounded p-2">

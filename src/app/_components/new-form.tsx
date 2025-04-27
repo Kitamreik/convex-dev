@@ -1,21 +1,8 @@
 import React, {useState} from "react"; //import hooks
 import { useMutation } from "convex/react";
-import {api} from "../../../convex/_generated/api"
-//add props so we can pass the to-do up to the parent component, create a new Type
-/*
-type FormProps = {
-    onCreate: (
-        title: string, 
-        description: string
-        // body/mood?
-    ) => void;
-}
-*/
-
-//can disable after ConvexClientProvider
+import {api} from "../../../convex/_generated/api";
 
 //copy pasta the form from page.tsx
-//can disable parameter - {onCreate}: FormProps - after ConvexClientProvider
 export function NewForm() {
     //create more state to hold the title, description, etc
     const [title, setTitle] = useState("");
@@ -36,11 +23,7 @@ export function NewForm() {
         e.preventDefault();
 
         //call the async function and insert state
-        await createTodo({title, description, mood_state, body_state})
-
-        //remove the onCreate
-        //onCreate(title, description, mood_state, body_state)
-        //move setter functions back to page.tsx
+        await createTodo({title, description, mood_state, body_state});
         
         //use the setter functions for state
         setTitle("");
