@@ -6,13 +6,8 @@ export const ListComponents = query({
 
     //without mutations
     handler: async (ctx) => {
-        //add a user where we trigger auth via getting the user's identity
-        const user = await requireUser(ctx); //call the helper function in helpers.ts and reference the context
-        //Scan the entire database for a match by pulling a list of the todos from the database. 
-        return await ctx.db.query("todos").withIndex("by_user_id", q => q.eq("userId", user.tokenIdentifier)) //New (refactor) - to use the newly defined index in schema.ts, call it withIndex
-
-        //.filter(q => q.eq(q.field("userId"), user.tokenIdentifier)) //NEW: filter the to-dos to only return the ones that belong to the current user. q, ep -> equals
-        .collect(); //Use the collect function to gather the data
+       //pull a list of the todos from the database. Use the collect function to gather the data
+       return await ctx.db.query("todos").collect();
     }
 });
 
