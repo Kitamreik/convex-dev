@@ -2,7 +2,6 @@ import {mutation, query} from "../convex/_generated/server";
 import {v} from "convex/values"
 
 export const ListComponents = query({
-
     //without mutations
     handler: async (ctx) => {
         //pull a list of the todos from the database. Use the collect function to gather the data
