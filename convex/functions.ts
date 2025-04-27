@@ -3,7 +3,6 @@ import {v} from "convex/values"
 import { requireUser } from "./helpers";
 
 export const ListComponents = query({
-
     //without mutations
     handler: async (ctx) => {
          //add a user where we trigger auth via getting the user's identity
