@@ -39,7 +39,7 @@ export default function Home() {
                   mood_state={mood_state}
                   body_state={body_state} 
               />
-              ))};
+              ))}
           </ul>
       <NewForm />
     </Authenticated>
