@@ -6,8 +6,15 @@ export const ListComponents = query({
 
     //without mutations
     handler: async (ctx) => {
+         //add a user where we trigger auth via getting the user's identity
+        const user = await ctx.auth.getUserIdentity();
+        
+        //Patch for conditional rendering 
+        if (!user) {
+            console.log(user, "The user needs to sign up")
+        }
        //pull a list of the todos from the database. Use the collect function to gather the data
-       return await ctx.db.query("todos").collect();
+        return await ctx.db.query("todos").collect();
     }
 });
 
