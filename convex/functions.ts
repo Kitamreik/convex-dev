@@ -24,6 +24,8 @@ export const createTodo = mutation({
         description: v.string(),
         mood_state: v.string(),
         body_state: v.string(),
+        //Deployment error: Object is missing the required field `userId`. Consider wrapping the field validator in `v.optional(...)` if this is expected.
+        userId: v.any() //Docs: https://docs.convex.dev/functions/validation#any
     },
     handler: async (ctx, args) => {
         //add a user where we trigger auth via getting the user's identity
