@@ -5,7 +5,9 @@ import { Authenticated, Unauthenticated, AuthLoading } from "convex/react";
 import { SignInButton, UserButton } from "@clerk/nextjs";
 import { NewForm } from "./_components/new-form";
 import { LineItem } from "./_components/to-do-list";
-import { ListComponents } from "@/convex/functions";
+import { ListComponents } from "../../convex/functions";
+import { GenerateForm } from "./_components/generate-form";
+import { TaskSummary } from "./_components/task-summary";
 //Move to to-do-list.tsx only if compartmentalizing components
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
@@ -21,33 +23,30 @@ export default function Home() {
      <Authenticated>
       {/* shortcut command: div.flex.items-center.justify-between */}
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold">Somatic Serenity</h1>
+        <h1 className="text-xl font-bold">Somatic Serenity🌻😌</h1>
         <UserButton/>
         {/* creates icon for the user to sign out */}
       </div>
-    
+      <p className="text-lg">Daydream about your daily tasks, and journal your thoughts. What will you craft today?</p>
+      <GenerateForm/>
       <br />
-      {/* set the ul container and adding spacing between elements. Begin mapping, add question mark re: rendering */}
-      <ul className="space-y-2">
-              {todos?.map(({_id, title, description, completed, mood_state, body_state}, index) => (
-              <LineItem 
-                  key={index}
-                  id={_id}
-                  title={title}
-                  description={description}
-                  completed={completed}
-                  mood_state={mood_state}
-                  body_state={body_state} 
-              />
-              ))}
-          </ul>
+      <TaskSummary/>
+      <br />
+      <hr />
+      <h2 className="text-xl font-bold">Typewriting Vibez 💻</h2>
+      <p>Feeling like committing your hands to the keyboard to compose your thoughts? Type away at the form below.</p>
       <NewForm />
-    </Authenticated>
+   </Authenticated>
     <Unauthenticated>
-      <p className="text-gray-600">Please sign in to continue.</p>
+      <div className="mt-64 sign-in-modal flex flex-col items-center">
+        <p className="text-gray-600 list-color flex items-center">Hello there, and welcome to Somatic Serenity. 
+        </p>
+        <p className="text-gray-600 list-color flex items-center">To embark on your journey, please sign in to continue. ✐ 😎</p>
+        <br />
       <SignInButton>
         <button className="p-1 bg-blue-500 text-white rounded">Sign In</button>
       </SignInButton>
+      </div>
     </Unauthenticated>
     <AuthLoading>
       <p>Loading...</p>

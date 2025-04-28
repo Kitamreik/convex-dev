@@ -27,7 +27,7 @@ const geistMono = Geist_Mono({
 // Template code can be disabled
 
 export const metadata: Metadata = {
-  title: "Somatic Serenity",
+  title: "🌻😌",
   description: "An interface to track your goals, flow state and peace of mind.",
 };
 

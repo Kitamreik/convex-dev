@@ -1,6 +1,7 @@
 import {mutation, query} from "../convex/_generated/server";
+import { internalMutation } from "../convex/_generated/server";
 import {v} from "convex/values"
-import { requireUser } from "./helpers";
+import { requireUser } from "../convex/helpers";
 
 export const ListComponents = query({
     //without mutations
@@ -75,5 +76,33 @@ export const deleteTodo = mutation({
             throw new Error("Unauthorized");
         }
         await ctx.db.delete(args.id)
+    }
+})
+
+//internalMutation: not part of the app's public API, can only be called from another action, query or mutation. Won't be able to call directly from Front End.
+export const createManyTodos = internalMutation({
+    args: {
+        userId: v.string(),
+        todos: v.array(v.object({
+            title: v.string(),
+            description: v.string(),
+            mood_state: v.string(),
+            body_state: v.string(),
+        })),
+    }, 
+    handler: async (ctx, args) => {
+        //iterate over the list
+        for (const todo of args.todos) {
+            await ctx.db.insert("todos", {
+                title: todo.title,
+                description: todo.description,
+                completed: false,
+                mood_state: todo.mood_state,
+                body_state: todo.body_state,
+                userId: args.userId
+            })
+            
+        }
+
     }
 })

@@ -17,7 +17,7 @@ export function LineItem({id, title, description, completed, mood_state, body_st
     const deleteTodo = useMutation(api.functions.deleteTodo);
   return (
     //remove key
-    <li className = "w-full flex item-center gap-2 border rounded p-2">
+    <li className = "w-full flex item-center gap-2 border rounded p-2 list-color">
         <input 
         type="checkbox" 
         checked={completed} 
@@ -26,14 +26,14 @@ export function LineItem({id, title, description, completed, mood_state, body_st
         <div>
           <p className="font-semibold">Memo: {title}</p>
             {/* 300 - light, 600- darker */}
-          <p className="text-sm text-gray-600">Summary: {description}</p>
-          <p className="text-sm text-gray-600">What's your vibe like: {mood_state}</p>
-          <p className="text-sm text-gray-600">How do you feel in your body: {body_state}</p>
+          <p className="text-sm text-gray-600 p-color">Summary: {description}</p>
+          <p className="text-sm text-gray-600 list-color">What's your vibe like: {mood_state}</p>
+          <p className="text-sm text-gray-600 p-color">How do you feel in your body: {body_state}</p>
         </div>
         {/* delete button */}
         <div className="ml-auto">
         {/* refactor callback from onRemove() to deleteTodo  */}
-          <button type="button" className="text-red-500" onClick={() => deleteTodo({id})}>Remove</button>
+          <button type="button" className="p-1 text-red-500 rounded remove-btn" onClick={() => deleteTodo({id})}>Remove</button>
         </div>
       </li>
   )
