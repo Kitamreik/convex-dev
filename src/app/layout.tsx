@@ -1,6 +1,7 @@
 // DO NOT TOUCH CONFIG
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react" //Web Analytics
+import { SpeedInsights } from "@vercel/speed-insights/next" //Insights
 // Template code can be disabled
 import { Geist, Geist_Mono } from "next/font/google";
 import {ConvexClientProvider} from "./providers"; //added
@@ -44,8 +45,9 @@ export default function RootLayout({
       >
         <ConvexClientProvider>
           {children}
-          <Analytics/>
         </ConvexClientProvider>
+        <Analytics/>
+        <SpeedInsights/>
       </body>
     </html>
   );
