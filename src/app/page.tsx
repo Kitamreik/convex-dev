@@ -38,10 +38,15 @@ export default function Home() {
       <NewForm />
    </Authenticated>
     <Unauthenticated>
-      <p className="text-gray-600">Please sign in to continue.</p>
+      <div className="mt-64 sign-in-modal flex flex-col items-center">
+        <p className="text-gray-600 list-color flex items-center">Hello there, and welcome to Somatic Serenity. 
+        </p>
+        <p className="text-gray-600 list-color flex items-center">To embark on your journey, please sign in to continue. ✐ 😎</p>
+        <br />
       <SignInButton>
         <button className="p-1 bg-blue-500 text-white rounded">Sign In</button>
       </SignInButton>
+      </div>
     </Unauthenticated>
     <AuthLoading>
       <p>Loading...</p>

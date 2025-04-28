@@ -56,6 +56,19 @@ body {
   color:rgb(75, 166, 250);
 }
 
+.sign-in-modal {
+  border: 2px solid;
+  border-color: rgb(127, 146, 255);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(9px);
+}
+
+.remove-btn {
+  border: 2px solid;
+  border-color: red;
+}
+
 .p-color {
   color: #ae3bf6; 
   /*

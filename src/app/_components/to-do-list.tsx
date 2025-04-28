@@ -33,7 +33,7 @@ export function LineItem({id, title, description, completed, mood_state, body_st
         {/* delete button */}
         <div className="ml-auto">
         {/* refactor callback from onRemove() to deleteTodo  */}
-          <button type="button" className="text-red-500" onClick={() => deleteTodo({id})}>Remove</button>
+          <button type="button" className="p-1 text-red-500 rounded remove-btn" onClick={() => deleteTodo({id})}>Remove</button>
         </div>
       </li>
   )

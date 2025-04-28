@@ -22,7 +22,7 @@ export function TaskSummary() {
                       />
                       ))}
                   </ul>
-                  <p className="contrast">If you don't like a suggestion that the AI had made, click the <b className="red">Remove</b> button. You can also remove a mistake as well.</p>
+                  <p className="contrast">If you don't like a suggestion that the AI had made, click the <b className="red">Remove</b> button. You can also remove a mistake you've made as well. Notice: deletes are permanent, so be careful.</p>
         </div>
       
     )
