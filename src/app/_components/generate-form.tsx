@@ -42,23 +42,15 @@ export function GenerateForm() {
         {/* wrap form controls in a div, make a flex column with a gap of 2 */}
         <div className="flex flex-col gap-2">
             <h2 className="font-semibold text-lg">Generate Tasks with AI 🪄🤖</h2>
+            <p>Pressed for time? You can optionally use the AI bot to help you generate a list of three ideas automatically, which will appear in your current task summary. Click the button when done.</p>
+            <hr />
+            <p>Example: Generate some tasks for a painting night at home with my friends.</p>
             {/* small text labels */}
-            <label className="text-sm font-semibold" htmlFor="prompt">Prompt: </label>
+            <label className="text-sm font-semibold" htmlFor="prompt">Craft your ideas, tasks, thoughts here: </label>
             <input className="p-1 border rounded" type="text" name="prompt" id="prompt" value={prompt} onChange={e => setPrompt(e.target.value)} />
-            <FormSplitter/>
             
-            <button className="bg-blue-500 p-1 rounded text-white" type="submit">Create Entry</button>
+            <button className="bg-blue-500 p-1 rounded text-white" type="submit">Computing Magically Delicious Response...</button>
         </div>
     </form>
-    )
-}
-
-function FormSplitter() {
-    return (
-       <span>
-            <br />
-            <hr />
-            <br />
-       </span> 
     )
 }

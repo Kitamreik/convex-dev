@@ -14,13 +14,63 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #0a0a0a; 
+    /*
+    OG: 0a0a0a
+    */
     --foreground: #ededed;
+    /*
+    OG: ededed
+    */
   }
 }
 
 body {
-  background: var(--background);
+  background: url("../../public/moon.jpg");
+  /* OK: auto 1500 or 2000px */
+  background-repeat: no-repeat;
+  background-size: auto 2950px;
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Applied Glassmorphism: https://css.glass/ */
+/* moderately blurry to see results */
+.enhance {
+  border: 2px solid rgba(255, 255, 255, 1);
+  border-color: rgb(127, 146, 255);
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5.5px);
+}
+
+/* super blurry for form entries */
+.enhance-form {
+  border: 2px solid rgba(255, 255, 255, 1);
+  border-color: rgb(127, 146, 255);
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(9px);
+  color:rgb(75, 166, 250);
+}
+
+.p-color {
+  color: #ae3bf6; 
+  /*
+  9738d7
+  */
+}
+
+.list-color {
+  color:mediumslateblue
+}
+
+.contrast {
+  color:#8a8989
+}
+
+.red {
+  color:red
 }
